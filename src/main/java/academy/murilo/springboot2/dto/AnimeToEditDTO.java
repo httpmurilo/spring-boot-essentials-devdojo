@@ -1,6 +1,9 @@
 package academy.murilo.springboot2.dto;
 
-public class AnimeToSaveDTO {
+import lombok.Data;
+
+@Data
+public class AnimeToEditDTO {
 
     private Long id;
     private String name;
