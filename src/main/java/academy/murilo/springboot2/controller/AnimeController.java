@@ -35,6 +35,11 @@ public class AnimeController {
         return ResponseEntity.ok(animeService.findByIdOrThrowBadRequestException(id));
     }
 
+    @GetMapping("/find")
+    public ResponseEntity<List<Anime>> findByName(@RequestParam(required = false) String name) {
+        return ResponseEntity.ok(animeService.findByName(name));
+    }
+
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable int id) {
         animeService.delete(id);
