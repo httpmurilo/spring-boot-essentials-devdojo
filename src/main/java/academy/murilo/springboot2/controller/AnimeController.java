@@ -7,6 +7,8 @@ import academy.murilo.springboot2.dto.AnimeToEditDTO;
 import academy.murilo.springboot2.util.DateUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,10 +27,16 @@ public class AnimeController {
     private AnimeService animeService;
 
     @GetMapping
+    public ResponseEntity<Page<Anime>> list(Pageable pageable) {
+        log.info("Date formated {}", dateUtil.formatLocalDateTimeToDatabaseStyle(LocalDateTime.now()));
+        return new ResponseEntity<>(animeService.listAll(pageable), HttpStatus.OK);
+        //return ResponseEntity.ok(animeRepository.listAll());
+    }
+
+    @GetMapping(path = "/all")
     public ResponseEntity<List<Anime>> listAll() {
         log.info("Date formated {}", dateUtil.formatLocalDateTimeToDatabaseStyle(LocalDateTime.now()));
-        return new ResponseEntity<>(animeService.listAll(), HttpStatus.OK);
-        //return ResponseEntity.ok(animeRepository.listAll());
+        return ResponseEntity.ok(animeService.listAllNonPageable());
     }
 
     @GetMapping(path = "/{id}")
